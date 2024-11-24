@@ -1,4 +1,4 @@
-# Project Name  (Company Count Application)
+# Project Name  (Hospital Management System)
 
 - https://github.com/suyogbhere/Hospital_Management_system
 
