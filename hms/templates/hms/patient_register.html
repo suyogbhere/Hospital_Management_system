@@ -1,0 +1,17 @@
+{% extends 'hms/base.html' %}
+{% load static %}
+{% block title %}Patient Register{% endblock title %}
+
+
+{% block content1 %}
+<div class="container-fluid" >
+    <h1>Patient Register</h1>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form> 
+
+</div>
+{% endblock content1 %} 
