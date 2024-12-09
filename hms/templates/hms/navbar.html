@@ -15,22 +15,35 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'contact' %}">Contact</a>
           </li>
+          {% if request.user.is_patient %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Patient_Profile' %}">Patient Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          {% elif request.user.is_staff %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Staff_Profile' %}">Staff Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          {% elif request.user.is_doctor %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'doctor_profile' %}">Doctor Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register' %}">Register</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">Login</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">User</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
-          </li>
-          
+          {% endif %}
         </ul>
       </div>
     </div>

@@ -153,3 +153,33 @@ class Prescribed(models.Model):
 class Assigned(models.Model):
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
     D_ID = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+
+
+class UserRegistrationForm(forms.ModelForm):
+    DOB = forms.DateField(required=True, widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'is_patient', 'DOB']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_patient = True  # Example for a patient registration
+        if commit:
+            user.save()
+        return user
+
+--------------------------------------------------------------------
+def save_model(self, request, obj, form, change):
+        if 'is_patient' in form.changed_data:
+            obj.is_patient = form.cleaned_data['is_patient']
+        super().save_model(request, obj, form, change)
+        if 'is_staff' in form.changed_data:
+            obj.is_staff = form.cleaned_data['is_staff']
+        super().save_model(request, obj, form, change)
+        if 'is_doctor' in form.changed_data:
+            obj.is_staff = form.cleaned_data['is_doctor']
+        super().save_model(request, obj, form, change)
+
+--------------------------------------------------------------------

@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from hms.managers import CustomUserManager
+from hms_patient.models import *
+from hms_staff.models import *
+from hms_doctor.models import *
 
 Gender_choice =(
     ('Male','Male'),
@@ -21,11 +24,10 @@ class User(AbstractBaseUser,PermissionsMixin):
     REQUIRED_FIELDS = ['mobile']
     object = CustomUserManager()
 
+
 class Patient(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     P_ID = models.AutoField(primary_key=True)
-    DOB = models.DateField()
-    Contact = models.CharField(max_length=50)
     Address = models.CharField(max_length=255, null=True)
 
 
@@ -33,12 +35,6 @@ class Department(models.Model):
     Depart_ID = models.AutoField(primary_key=True)
     Depart_Name = models.CharField(max_length=200)
 
-
-class Doctor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    D_ID = models.AutoField(primary_key=True)
-    Contact = models.CharField(max_length=50) 
-    Department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True)
 
 room_choice = (
     ('General Ward','General Ward'),
@@ -61,6 +57,12 @@ class Room(models.Model):
     Room_no = models.IntegerField()
     Room_type = models.CharField(choices=room_choice, max_length=200)
     status = models.CharField(choices=room_status,max_length=100)
+
+class Doctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    D_ID = models.AutoField(primary_key=True)
+    Department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True)
+
 
 payment_method_choice =(
     ('Cash','Cash'),
@@ -106,6 +108,7 @@ class Staff(models.Model):
     Depart_ID = models.ForeignKey(Department,on_delete=models.CASCADE, null=True)
     Role = models.CharField(choices=ROLE_CHOICES, max_length=150, null=True)
 
+
 Appointment_status =(
     ('Pending','Pending'),
     ('Confirmed','Confirmed'),
@@ -130,7 +133,6 @@ class Medicine(models.Model):
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
 
-
 class Prescribed(models.Model):
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
     Medicine_ID = models.ForeignKey(Medicine,on_delete=models.CASCADE)
@@ -139,3 +141,11 @@ class Prescribed(models.Model):
 class Assigned(models.Model):
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
     D_ID = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+
+class Contact(models.Model):
+    fname = models.CharField(max_length=255)
+    contact = models.CharField(max_length=10)
+    email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    message = models.TextField()

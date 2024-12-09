@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from hms.models import *
 
 
@@ -59,3 +59,33 @@ class Doctor_Registration(UserCreationForm):
                  }
     field_order = ['email','first_name','last_name','mobile','password1','password2','gender']
 
+class PatientLogin(AuthenticationForm):
+    username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","autofocus":True}))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={"class":"form-control","autofocus":True}))
+
+class StaffLogin(AuthenticationForm):
+    username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","autofocus":True}))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={"class":"form-control","autofocus":True}))
+
+class DoctorLogin(AuthenticationForm):
+    username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","autofocus":True}))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={"class":"form-control","autofocus":True}))
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+        labels = {'fname':'Full Name', 'contact':'Contact Number', 'email':'Email Id', 'subject':'Subject', 'message':'Message' }
+        widgets = {
+            'fname': forms.TextInput(attrs={'class':'form-control','placeholder':'Full Name'}),
+            'contact':forms.NumberInput(attrs={'class':'form-control','placeholder':'Contact Number'}),
+            'email':forms.EmailInput(attrs={'class':'form-control','placeholder':'Email ID'}),
+            'subject':forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Subject'}),
+            'message':forms.Textarea(attrs={    
+                'class':'form-control',
+                'rows':3,
+                'cols':10,
+                'placeholder':'Message......'
+                })
+        }

@@ -1,0 +1,19 @@
+{% extends 'hms_patient/patient_index.html' %}
+{% load static %}
+{% block title %}Patient Dashboard{% endblock title %}
+
+{% block patient  %}
+<div>
+    <h2>Patient Dashboard</h2>
+    <h1 class="text-center"> {{patient.user.first_name}}, Welcome to profile!!</h1>
+    <div class="shadow p-3 col-sm-4 border mb-5">
+        <h5>First Name:</h5> {{patient.user.first_name}}
+        <h5>Last Name:</h5> {{patient.user.last_name}}
+        <h5>Email :</h5> {{patient.user.email}}
+        <h5>Mobile :</h5> {{patient.user.mobile}}
+        <h5>Address :</h5> {{patient.Address}}
+        <h5>Gender :</h5> {{patient.user.gender}}
+        
+    </div>
+</div>
+{% endblock patient %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hms',
-    
+    'hms_patient',
+    'hms_doctor',
+    'hms_staff',    
 ]
 
 MIDDLEWARE = [
@@ -126,3 +129,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Custom Mode
 AUTH_USER_MODEL = 'hms.User'
+
+# Custom Messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS={
+    messages.ERROR:'danger',
+    messages.DEBUG:'secondary',
+    messages.INFO:'info',
+    messages.SUCCESS:'success',
+    messages.WARNING:'warning',
+}
