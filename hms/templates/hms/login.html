@@ -1,0 +1,30 @@
+{% extends 'hms/base.html' %}
+{% load static %}
+{% block title %}Register{% endblock title %}
+
+{% block content1 %}
+<div class="container">
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" area-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'patient_login' %}"><button  class="note ">Patient Login</button></a>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+        <a href="{% url 'doctor_login' %}"><button class="note">Doctor Login</button></a>
+    </div>
+    <br>
+    <div class="text-center mt-4">
+        <a href="{% url 'staff_login' %}"><button  class="note ">Staff Login</button></a>
+    </div>
+</div>
+{% endblock content1 %}
+

@@ -1,0 +1,19 @@
+{% extends 'hms_staff/staff_index.html' %}
+{% load static %}
+{% block title %}staff Dashboard{% endblock title %}
+
+{% block staff  %}
+<div>
+    <h2>staff Dashboard</h2>
+    <h1 class="text-center"> {{staff.user.first_name}}, Welcome to profile!!</h1>
+    <div class="shadow p-3 col-sm-4 border mb-5">
+        <h5>First Name:</h5> {{staff.user.first_name}}
+        <h5>Last Name:</h5> {{staff.user.last_name}}
+        <h5>Email :</h5> {{staff.user.email}}
+        <h5>Mobile :</h5> {{staff.user.mobile}}
+        <h5>Address :</h5> {{staff.Address}}
+        <h5>Gender :</h5> {{staff.user.gender}}
+        
+    </div>
+</div>
+{% endblock staff %}

@@ -1,0 +1,18 @@
+{% load static %}
+
+<div class="border-end border-warning h-100">
+    <div>
+
+    </div>
+    <center> <img src="{% static 'hms/images/patient_logo.jpg' %}" alt="wallpaper" width="100" class="img-thumbnail rounded-circle"></center>
+    <h5 class="ps-5 mt-3"><em>{{request.user.first_name|lower}}{{request.user.last_name|lower}}</em></h5>
+    <hr class="border">
+    <div class="list-group">
+        <a href="{% url 'Patient_Profile' %}" class="list-group-item list-group-item-primary list-group-item-action  {% if request.path == '/hms_patient/Patient_Profile/' %} active {% endif %} ">Profile</a>
+        <a href="{% url 'Book_Appointment' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_patient/Book_Appointment/' %} active {% endif %} ">Book Appointment</a>
+        <a href="" class="list-group-item list-group-item-primary list-group-item-action">Appointment Status</a>
+        <a href="" class="list-group-item list-group-item-primary list-group-item-action">Update Details</a>
+        <a href="" class="list-group-item list-group-item-primary list-group-item-action">View Doctor</a>
+        <a href="" class="list-group-item list-group-item-primary list-group-item-action">Receipt Payment</a>
+    </div>
+</div>

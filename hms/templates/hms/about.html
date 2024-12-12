@@ -1,0 +1,61 @@
+{% extends 'hms/base.html' %}
+{% load static %}
+{% block title %}About{% endblock title %}
+
+
+{% block content1 %}
+<div class="container-fluid" >
+    <div class="row">
+        <div class="col-sm-6 mt-5">
+            <div class="mx-5">
+                <p>About Us</p>
+                <h2>All About Hospitals</h2>
+                <div class="col-sm-10">
+                    <p>A hospital is a place where a person goes to be healed when he or
+                        she is sick or injured. Hospitals also treat people who do not stay
+                        overnight, called outpatients. Doctors and nurses work at hospitals.
+                        Doctors make use of advanced medical technology to heal patients.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-5">
+            <img src="{% static 'hms/images/about-1.jpg' %}" alt="about_image" width="700px">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 mt-4 ms-5">
+            <img src="{% static 'hms/images/about1.jpg' %}" alt="about_image" width="700px">
+        </div>
+        <div class="col-sm-6 mt-4">
+            <div class="doctor-nusrse">
+                <h2><span style="color:red">All About</span><span style="color:green"><b> Doctor & Nurse</b></span></h2>
+                <div>
+                    <p>A hospital is a place where a person goes to be healed when he or
+                        she is sick or injured. Hospitals also treat people who do not stay
+                        overnight, called outpatients. Doctors and nurses work at hospitals.
+                        Doctors make use of advanced medical technology to heal patients.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 mt-5">
+            <div class="mx-5">
+                <h2><span style="color:green">All About</span> <span style="color:blue"><b>Sweeper</b></span></h2>
+                <div class="col-sm-10">
+                    <p>A hospital is a place where a person goes to be healed when he or
+                        she is sick or injured. Hospitals also treat people who do not stay
+                        overnight, called outpatients. Doctors and nurses work at hospitals.
+                        Doctors make use of advanced medical technology to heal patients.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-5">
+            <img src="{% static 'hms/images/about2.jpg' %}" alt="about_image" width="700px">
+        </div>
+    </div>
+
+</div>
+{% endblock content1 %}

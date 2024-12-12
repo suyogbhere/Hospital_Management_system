@@ -1,0 +1,185 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+# Create your models here.
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('DOCTOR', 'Doctor'),
+        ('STAFF', 'Staff'),
+        ('PATIENT', 'Patient'),
+    ]
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+
+class Doctor(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    specialization = models.CharField(max_length=100)
+
+class Staff(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    department = models.CharField(max_length=100)
+
+class Patient(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    medical_history = models.TextField(null=True, blank=True)
+
+
+Gender_choice =(
+    ('Male','Male'),
+    ('Female','Female'),
+)
+
+class Patient(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    P_ID = models.AutoField(primary_key=True)
+    FName = models.CharField(max_length=100)
+    LName = models.CharField(max_length=100)
+    DOB = models.DateField()
+    Gender = models.CharField(choices=Gender_choice,max_length=200)
+    Contact = models.CharField(max_length=50)
+    Address = models.CharField(max_length=255)
+
+
+
+class Department(models.Model):
+    Depart_ID = models.AutoField(primary_key=True)
+    Depart_Name = models.CharField(max_length=200)
+
+
+class Doctor(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    D_ID = models.AutoField(primary_key=True)
+    FName = models.CharField(max_length=100)
+    LName = models.CharField(max_length=100)
+    Contact = models.CharField(max_length=50)
+    Department = models.ForeignKey(Department,on_delete=models.CASCADE)
+
+room_choice = (
+    ('General Ward','General Ward'),
+    ('ICU','ICU'),
+    ('Maternity Room','Maternity Room'),
+    ('Isolation Room','Isolation Room'),
+    ('Day Care Room','Day Care Room'),
+    ('Delux Room','Delux Room')
+)
+
+room_status=(
+    ('available','available'),
+    ('occupied','occupied')
+)
+
+
+class Room(models.Model):
+    Room_ID = models.AutoField(primary_key=True)
+    P_ID = models.ForeignKey(Patient,on_delete=models.CASCADE)
+    Room_no = models.IntegerField()
+    Room_type = models.CharField(choices=room_choice)
+    status = models.CharField(choices=room_status,max_length=100)
+
+payment_method_choice =(
+    ('Cash','Cash'),
+    ('Credit/Debit Card','Credit/Debit Card'),
+    ('Mobile Wallet','Mobile Wallet'),
+    ('Insurance','Insurance'),
+    ('UPI','UPI')
+)
+
+class Billing(models.Model):
+    Bill_ID = models.AutoField(primary_key=True)
+    P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    Total_amount = models.IntegerField()
+    Pay_date = models.DateField()
+    Pay_method = models.CharField(choices=payment_method_choice,max_length=100)
+
+class Lab_Test(models.Model):
+    Test_ID = models.AutoField(primary_key=True)
+    P_ID = models.ForeignKey(Patient,on_delete=models.CASCADE)
+    D_ID = models.ForeignKey(Doctor,on_delete=models.CASCADE)
+    Test_name = models.CharField(max_length=200)
+    Test_date = models.DateField()
+    Test_result = models.CharField(max_length=255)
+
+class Contact_person(models.Model):
+    P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    Contact_P = models.IntegerField()
+
+ROLE_CHOICES = [
+        ('ADMIN', 'Administrator'),
+        ('DOCTOR', 'Doctor'),
+        ('NURSE', 'Nurse'),
+        ('RECEPTIONIST', 'Receptionist'),
+        ('TECHNICIAN', 'Technician'),
+        ('Medical Staff','Medical Staff'),
+        ('Support Staff','Support Staff'),
+    ]
+
+
+class Staff(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    Staff_ID = models.AutoField(primary_key=True)
+    Depart_ID = models.ForeignKey(Department,on_delete=models.CASCADE)
+    Role = models.CharField(choices=ROLE_CHOICES, max_length=150)
+
+Appointment_status =(
+    ('Pending','Pending'),
+    ('Confirmed','Confirmed'),
+    ('Cancelled','Cancelled'),
+    ('Rescheduled','Rescheduled'),
+    ('Completed','Completed'),
+    ('No-Show','No-Show')
+)
+
+class Appointment(models.Model):
+    Appointment_ID = models.Aggregate(primary_key=True)
+    Appointment_datetime = models.DateTimeField()
+    Status = models.CharField(choices=Appointment_status, max_length=255,default='PENDING')
+    P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    D_ID = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+class Medicine(models.Model):
+    Medicine_ID = models.AutoField(primary_key=True)
+    Medicine_name = models.CharField(max_length=200)
+    Cost = models.IntegerField()
+    Side_effect = models.CharField(max_length=200)
+    P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+
+
+
+class Prescribed(models.Model):
+    P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    Medicine_ID = models.ForeignKey(Medicine,on_delete=models.CASCADE)
+
+
+class Assigned(models.Model):
+    P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    D_ID = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+
+
+class UserRegistrationForm(forms.ModelForm):
+    DOB = forms.DateField(required=True, widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'is_patient', 'DOB']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_patient = True  # Example for a patient registration
+        if commit:
+            user.save()
+        return user
+
+--------------------------------------------------------------------
+def save_model(self, request, obj, form, change):
+        if 'is_patient' in form.changed_data:
+            obj.is_patient = form.cleaned_data['is_patient']
+        super().save_model(request, obj, form, change)
+        if 'is_staff' in form.changed_data:
+            obj.is_staff = form.cleaned_data['is_staff']
+        super().save_model(request, obj, form, change)
+        if 'is_doctor' in form.changed_data:
+            obj.is_staff = form.cleaned_data['is_doctor']
+        super().save_model(request, obj, form, change)
+
+--------------------------------------------------------------------
