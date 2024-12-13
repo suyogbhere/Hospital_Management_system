@@ -11,13 +11,12 @@
         {% csrf_token %}
         <!-- {{form.as_p}} -->
         {% for fm in form %}
-            <div>
+            <div class="mt-2">
                 {{fm.label_tag}} {{fm}} 
-                <small class="text-warning ">{{fm.errors|striptags}}</small>
-                <br>
+                <small class="text-warning">{{fm.errors|striptags}}</small>
             </div>
-        {% endfor %} <br />
-        <input type="submit" value="Submit" class="btn btn-primary">
+        {% endfor %}
+        <input type="submit" value="Submit" class="mt-2  btn btn-primary">
         {% if form.non_field_errors %}
             {% for error in form.non_field_errors %}
                 <p class="alert alert-danger my-3">{{error}}</p>
