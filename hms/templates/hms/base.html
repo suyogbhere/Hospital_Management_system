@@ -7,13 +7,14 @@
     <title>{% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'hms/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'hms/css/style.css' %}">
+    {% block maincss %}
     <style>
         .background-div{
             background-image: url( "{% static 'hms/images/h3.jpg' %}");
         }
-
-
     </style>
+    {% endblock maincss %}
+    
 </head>
 <body>
     

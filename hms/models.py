@@ -4,6 +4,8 @@ from hms.managers import CustomUserManager
 from hms_patient.models import *
 from hms_staff.models import *
 from hms_doctor.models import *
+from django.core.exceptions import ValidationError
+
 
 Gender_choice =(
     ('Male','Male'),
@@ -124,6 +126,8 @@ class Appointment(models.Model):
     Status = models.CharField(choices=Appointment_status, max_length=255,default='PENDING')
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
     D_ID = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+
 
 class Medicine(models.Model):
     Medicine_ID = models.AutoField(primary_key=True)

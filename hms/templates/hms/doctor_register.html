@@ -9,7 +9,6 @@
 
     <form action="" method="POST" class="col-sm-4 mx-auto">
         {% csrf_token %}
-        <!-- {{form.as_p}} -->
         {% for fm in form %}
             <div class="mt-2">
                 {{fm.label_tag}} {{fm}} 

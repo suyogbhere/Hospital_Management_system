@@ -5,9 +5,21 @@
 {% block patient  %}
 <div>
     <h2>Patient Dashboard</h2>
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" area-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="container card">
         <div class="card-body my-2 ">
-        <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;"> {{patient.user.first_name}}, Welcome to profile!!</h2> 
+            {% block PatientHeading %}
+            <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;"> {{patient.user.first_name}}, Welcome to profile!!</h2> 
+            {% endblock PatientHeading %}
         <div class="container mt-5">
             <table class="table table-bordered">
                 <tr>

@@ -45,8 +45,8 @@ def Patient_Login(request):
             if fm.is_valid():
                 username = fm.cleaned_data['username']
                 password = fm.cleaned_data['password']
-                print('username:',username)
-                print('password:',password)
+                # print('username:',username)
+                # print('password:',password)
                 user = authenticate(username=username, password=password)
                 if user.is_patient:
                     login(request,user)
@@ -121,7 +121,7 @@ def Doctor_Login(request):
                 messages.success(request,'Login successfully')
                 return HttpResponseRedirect('/hms_doctor/doctor_profile/')
             else:
-                    messages.warning(request,'You are not yet doctor, Kindly contact to admin !!')
+                    messages.warning(request,'You are not yet Hospital doctor, Kindly contact to admin !!')
     else:
         fm= DoctorLogin()
     return render(request, 'hms/doctor_login.html',{'form':fm})
