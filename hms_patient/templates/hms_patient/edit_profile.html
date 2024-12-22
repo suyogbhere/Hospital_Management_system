@@ -1,0 +1,49 @@
+{% extends 'hms_patient/patient_index.html' %}
+{% load static %}
+{% block title %}Patient Dashboard{% endblock title %}
+
+{% block patient  %}
+<div>
+    <h2>Patient Dashboard</h2>
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" area-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container card">
+        <div class="card-body my-2 ">
+            {% block PatientHeading %}
+            <h2 class="p-1 text-center" style="border-bottom: 2px solid navy;">Edit Profile</h2> 
+            {% endblock PatientHeading %}
+        <div class="container mt-5">
+            <div class="col-sm-8 ">
+                <form action="" method="POST" novalidate>  
+                    {% csrf_token %}
+                    {% for fm in form %}
+                    <div class="mt-2">
+                        {{fm.label_tag}} {{fm}} 
+                        <small class="text-warning">{{fm.errors|striptags}}</small>
+                    </div>        
+                    {% endfor %}
+                    <input type="submit" value="Save Changes" class=" mt-2 btn btn-primary">
+                    <br>
+                    <!-- <p><strong>Note:</strong> The email field cannot be changed.</p> -->
+                   <div>
+                    {% if appointment.non_field_errors %} 
+                        {% for error in appointment.non_field_errors %}
+                            <p class="alert alert-danger my-3">{{error}}</p>
+                        {% endfor %} 
+                    {% endif %}
+                    </div>
+                </form>
+            </div>  
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock patient %}

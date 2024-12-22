@@ -4,16 +4,50 @@
 
 {% block doctor  %}
 <div>
-    <h2>doctor Dashboard</h2>
-    <h1 class="text-center"> {{doctor.user.first_name}}, Welcome to profile!!</h1>
-    <div class="shadow p-3 col-sm-4 border mb-5">
-        <h5>First Name:</h5> {{doctor.user.first_name}}
-        <h5>Last Name:</h5> {{doctor.user.last_name}}
-        <h5>Email :</h5> {{doctor.user.email}}
-        <h5>Mobile :</h5> {{doctor.user.mobile}}
-        <h5>Address :</h5> {{doctor.Address}}
-        <h5>Gender :</h5> {{doctor.user.gender}}
-        
+    <h2>Doctor Dashboard</h2>
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" area-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container card">
+        <div class="card-body my-2 ">
+            {% block DoctorHeading %}
+            <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;"> {{doctor.user.first_name}}, Welcome to profile!!</h2> 
+            {% endblock DoctorHeading %}
+        <div class="container mt-5 table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <th> First Name</th>
+                    <td>{{doctor.user.first_name}}</td>
+                    
+                    <th> Last Name</th>
+                    <td>{{doctor.user.last_name}}</td>
+                </tr>
+                <br>
+                <tr>
+                    <th> Email Address</th>
+                    <td>{{doctor.user.email}}</td>
+
+                    <th> Contact Number</th>
+                    <td>{{doctor.user.mobile}}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{doctor.user.gender}}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{doctor.Address}}</td>
+                </tr>
+            </table>
+        </div>
+        </div>
     </div>
 </div>
 {% endblock doctor %}

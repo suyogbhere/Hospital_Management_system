@@ -52,7 +52,6 @@ class Doctor_Registration(UserCreationForm):
         model= User
         fields= ['email','first_name','last_name','mobile','gender']
         widgets={"first_name":forms.TextInput(attrs={"class":"form-control"}),
-                 "first_name":forms.TextInput(attrs={"class":"form-control"}),
                  "last_name":forms.TextInput(attrs={"class":"form-control"}),
                  "email":forms.EmailInput(attrs={"class":"form-control"}),
                  "mobile":forms.NumberInput(attrs={"class":"form-control"}),

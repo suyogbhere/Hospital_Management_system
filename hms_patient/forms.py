@@ -3,6 +3,7 @@ from hms.models import *
 from hms_patient.models import *
 # from datetime import datetime
 from django.utils.timezone import now
+from django.contrib.auth import get_user_model
 
 
 class DateTimeInput(forms.DateTimeInput):
@@ -33,3 +34,40 @@ class AppointmentForm(forms.ModelForm):
             raise ValidationError("Appointment date and time must be in the future.")
         return datetime    
 
+User = get_user_model()
+
+class PatientUpdateForm(forms.ModelForm):
+    #Field from from patient model
+    Address = forms.CharField(required=False, max_length=255,widget=forms.Textarea(attrs={
+        'class':'form-control', 'rows':'2',
+    }))
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'mobile']  # Fields from User model
+        widgets={"first_name":forms.TextInput(attrs={"class":"form-control"}),
+                 "last_name":forms.TextInput(attrs={"class":"form-control"}),
+                 "email":forms.EmailInput(attrs={"class":"form-control",'readonly': 'readonly'}),
+                 "mobile":forms.NumberInput(attrs={"class":"form-control"}),
+                 }
+        
+    def __init__(self, *args, **kwargs):
+        patient = kwargs.pop('patient', None)  # Accept the Patient instance
+        super().__init__(*args, **kwargs)
+
+        # Pre-fill Patient-specific fields
+        if patient:
+            self.fields['Address'].initial = patient.Address
+
+    def save(self, user_instance, patient_instance, commit=True):
+        # Save the User model fields
+        user_instance.first_name = self.cleaned_data['first_name']
+        user_instance.last_name = self.cleaned_data['last_name']
+        user_instance.mobile = self.cleaned_data['mobile']
+        user_instance.email = self.cleaned_data['email']
+        if commit:
+            user_instance.save()
+        # Save the Patient model fields
+        patient_instance.Address = self.cleaned_data['Address']
+        if commit:
+            patient_instance.save()
+        return user_instance

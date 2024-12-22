@@ -45,8 +45,6 @@ def Patient_Login(request):
             if fm.is_valid():
                 username = fm.cleaned_data['username']
                 password = fm.cleaned_data['password']
-                # print('username:',username)
-                # print('password:',password)
                 user = authenticate(username=username, password=password)
                 if user.is_patient:
                     login(request,user)
@@ -83,8 +81,6 @@ def Staff_Login(request):
         if fm.is_valid():
             username = fm.cleaned_data['username']
             password = fm.cleaned_data['password']
-            print('username:',username)
-            print('password:',password)
             user = authenticate(username=username, password=password)
             if user.is_staff:
                 login(request,user)
@@ -113,8 +109,6 @@ def Doctor_Login(request):
         if fm.is_valid():
             username = fm.cleaned_data['username']
             password = fm.cleaned_data['password']
-            print('username:',username)
-            print('password:',password)
             user = authenticate(username=username, password=password)
             if user.is_doctor:
                 login(request,user)

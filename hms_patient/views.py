@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseForbidden
 
+
 # Create your views here.
 def Patient_Profile(request):
     try:
@@ -82,3 +83,25 @@ def Edit_Appointment(request,id):
         appointment = AppointmentForm(instance=pi)
     return render(request, 'hms_patient/edit_appointment.html',locals())
 
+
+def Edit_Patient_Profile(request):
+    user = request.user  # Logged-in user
+    if not user.is_patient:  # Restrict access to patients only
+        return redirect('unauthorized')  # Redirect if not a patient
+
+    patient = Patient.objects.get(user=user)  # Get the related Patient model instance
+
+    if request.method == 'POST':
+        form = PatientUpdateForm(request.POST, instance=user, patient=patient)
+        if form.is_valid():
+            form.save(user_instance=user, patient_instance=patient)
+            messages.success(request,'Patient detail updated successfully!!')
+            return redirect('Patient_Profile')  # Redirect to dashboard on success
+    else:
+        form = PatientUpdateForm(instance=user, patient=patient)
+    return render(request, 'hms_patient/edit_profile.html', {'form': form})
+
+
+def Doctor_List(request):
+    doctor = Doctor.objects.all()
+    return render(request, 'hms_patient/doctor_list.html',locals())
