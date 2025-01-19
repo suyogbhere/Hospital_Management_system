@@ -1,10 +1,10 @@
-{% extends 'hms_patient/patient_index.html' %}
+{% extends 'hms_doctor/doctor_index.html' %}
 {% load static %}
-{% block title %}Patient Dashboard{% endblock title %}
+{% block title %}Doctor Dashboard{% endblock title %}
 
-{% block patient  %}
+{% block doctor  %}
 <div>
-    <h2>Patient Dashboard</h2>
+    <h2>Dcotor Dashboard</h2>
     <div class="container col-sm-5 mx-auto mt-1">
         {% if messages %}
             {% for message in messages %}
@@ -17,17 +17,18 @@
     </div>
     <div class="container card">
         <div class="card-body my-2 ">
-            {% block PatientHeading %}
-            <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;">Appointment Status</h2> 
-            {% endblock PatientHeading %}
+            {% block DoctorHeading %}
+            <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;">My Appointments</h2> 
+            {% endblock DoctorHeading %}
         <div class="container mt-5 table-responsive">
             <div class="col-sm-10 mx-auto">
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
+                            <th>APPOINTMENT ID</th>
                             <th>PATIENT ID</th>
-                            <th>DOCTOR NAME</th>
-                            <th>DEPARTMENT</th>
+                            <th>PATIENT NAME</th>
+                            <th>DATE & TIME</th>
                             <th>STATUS</th>
                             <th>ACTION</th>
                         </tr>
@@ -36,24 +37,16 @@
                         {% for appointment in appointments %}
                             <tr>
                                 <td>{{appointment.Appointment_ID}}</td>
-                                <td>{{appointment.D_ID.user.first_name}} {{appointment.D_ID.user.last_name}}</td>
-                                <td>{{appointment.D_ID.Department}}</td>
+                                <td>{{appointment.P_ID}}</td>
+                                <td>{{appointment.P_ID.user.first_name}} {{appointment.P_ID.user.last_name}}</td>
+                                <td>{{appointment.Appointment_datetime}}</td>
                                 <td>{{appointment.Status}}</td>
                                 <td>
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            {% if appointment.Status == 'Pending' %}
-                                            <a href="{% url 'cancel_appointment' appointment.Appointment_ID %}" class="btn btn-danger btn-sm">
-                                                Cancel
-                                            </a>
-                                            {% else %}
-                                                <span class="text-muted btn btn-secondary btn-sm">N/A</span>
-                                            {% endif %}
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <form action="{% url 'Edit_Appointment' appointment.Appointment_ID  %}" method="GET">
-                                                {% csrf_token %}
-                                                <input type="submit" value="Edit" class="btn btn-warning btn-sm">
+                                            <form action="{% url 'Update_Appointment' appointment.Appointment_ID  %}" method="GET">
+                                                <!-- {% csrf_token %} -->
+                                                <input type="submit" value="Update" class="btn btn-warning btn-sm">
                                             </form>
                                         </div>
                                     </div>
@@ -62,9 +55,21 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <br>
+
+                <div>
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    {% endif %}
+                </div>
+
             </div>  
         </div>
         </div>
     </div>
 </div>
-{% endblock patient %}
+{% endblock doctor %}

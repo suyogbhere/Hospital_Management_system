@@ -26,17 +26,23 @@ class User(AbstractBaseUser,PermissionsMixin):
     REQUIRED_FIELDS = ['mobile']
     object = CustomUserManager()
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     P_ID = models.AutoField(primary_key=True)
     Address = models.CharField(max_length=255, null=True)
 
-
+    def __str__(self):
+        return f"{self.P_ID}"
+    
 class Department(models.Model):
     Depart_ID = models.AutoField(primary_key=True)
     Depart_Name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return f"{self.Depart_Name}"
 
 room_choice = (
     ('General Ward','General Ward'),
@@ -60,11 +66,16 @@ class Room(models.Model):
     Room_type = models.CharField(choices=room_choice, max_length=200)
     status = models.CharField(choices=room_status,max_length=100)
 
+    def __str__(self):
+        return f"{self.Room_no} {self.Room_type}"
+
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     D_ID = models.AutoField(primary_key=True)
     Department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True)
 
+    def __str__(self):
+        return f"{self.user}"
 
 payment_method_choice =(
     ('Cash','Cash'),
@@ -80,6 +91,7 @@ class Billing(models.Model):
     Total_amount = models.IntegerField()
     Pay_date = models.DateField()
     Pay_method = models.CharField(choices=payment_method_choice,max_length=100)
+
 
 class Lab_Test(models.Model):
     Test_ID = models.AutoField(primary_key=True)
@@ -131,11 +143,13 @@ class Appointment(models.Model):
 
 class Medicine(models.Model):
     Medicine_ID = models.AutoField(primary_key=True)
-    Medicine_name = models.CharField(max_length=200)
-    Cost = models.IntegerField()
-    Side_effect = models.CharField(max_length=200)
+    Medicine_name = models.CharField(max_length=200, null=True)
+    Cost = models.IntegerField(null=True)
+    Side_effect = models.CharField(max_length=200, null=True)
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.Medicine_ID}"
 
 class Prescribed(models.Model):
     P_ID = models.ForeignKey(Patient, on_delete=models.CASCADE)
@@ -153,3 +167,4 @@ class Contact(models.Model):
     email = models.EmailField()
     subject = models.CharField(max_length=255)
     message = models.TextField()
+

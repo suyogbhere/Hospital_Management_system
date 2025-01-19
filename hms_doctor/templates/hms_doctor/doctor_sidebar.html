@@ -9,8 +9,9 @@
     <hr class="border">
     <div class="list-group">
         <a href="{% url 'doctor_profile' %}" class="list-group-item list-group-item-primary list-group-item-action  {% if request.path == '/hms_doctor/doctor_profile/' %} active {% endif %} ">Profile</a>
-        <a href="" class="list-group-item list-group-item-primary list-group-item-action">My Appointments</a>
-        <a href="" class="list-group-item list-group-item-primary list-group-item-action">Appointment Status</a>
-        <a href="" class="list-group-item list-group-item-primary list-group-item-action">Add prescription</a>
+        <a href="{% url 'Doctor_My_Appointment' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_doctor/My_Appointment/' %} active {% endif %} ">My Appointments</a>
+        <a href="{% url 'Add_Prescription' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_doctor/Add_Prescription/' %} active {% endif %} ">Add prescription</a>
+        <a href="{% url 'Search_Edit_Prescription' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_doctor/Search_Edit_Prescription/' %} active {% endif %} ">Edit prescription</a>
+        <!-- <a href="" class="list-group-item list-group-item-primary list-group-item-action">Appointment Status</a> -->
     </div>
 </div>

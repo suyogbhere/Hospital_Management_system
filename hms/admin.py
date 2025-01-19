@@ -16,3 +16,22 @@ class AppointmentAdmin(admin.ModelAdmin):
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display =['Depart_ID','Depart_Name']
+
+@admin.register(Medicine)
+class MedicineAdmin(admin.ModelAdmin):
+    list_display=['Medicine_ID','P_ID','Medicine_name','Side_effect','Cost']
+
+
+@admin.register(Prescribed)
+class PrescribedAdmin(admin.ModelAdmin):
+    list_display=['P_ID','Medicine_ID']
+
+@admin.register(Assigned)
+class AssignedAdmin(admin.ModelAdmin):
+    list_display=['P_ID','P_ID']
+
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['fname','contact','email','subject','message']
+

@@ -1,0 +1,106 @@
+{% extends 'hms_doctor/doctor_index.html' %}
+{% load static %}
+{% block title %}Doctor Dashboard{% endblock title %}
+
+{% block doctor  %}
+<div>
+    <h2>Dcotor Dashboard</h2>
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" area-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container card">
+        <div class="card-body my-2 ">
+            {% block DoctorHeading %}
+            <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;">Search & Edit Prescription</h2>
+            {% endblock DoctorHeading %}
+            <div>
+                
+                <div class="container mt-4">
+                    <!-- Search Form -->
+                    <form method="get" action="" class="col-sm-4">
+                        <label for="P_ID">Enter Patient ID:</label>
+                        <input type="number" name="P_ID" id="P_ID" class="form-control col-sm-2" placeholder="Search by Patient ID" value="{{ search_id }}">
+                        <button type="submit" class="btn btn-primary mt-2">Search</button>
+                    </form>
+            
+                    {% if medicines %}
+                    <h3 class="mt-4">Prescriptions for Patient ID: {{ search_id }}</h3>
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>Medicine Name</th>
+                                <th>Cost</th>
+                                <th>Side Effect</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for medicine in medicines %}
+                            <tr>
+                                <td>{{ medicine.Medicine_name }}</td>
+                                <td>{{ medicine.Cost }}</td>
+                                <td>{{ medicine.Side_effect }}</td>
+                                <td>
+                                    <!-- Edit Modal Trigger -->
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ medicine.Medicine_ID }}">Edit</button>
+                                </td>
+                            </tr>
+            
+                            <!-- Edit Modal -->
+                            <div class="modal fade" id="editModal{{ medicine.Medicine_ID }}" tabindex="-1" aria-labelledby="editModalLabel{{ medicine.Medicine_ID }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel{{ medicine.Medicine_ID }}">Edit Prescription</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="medicine_id" value="{{ medicine.Medicine_ID }}">
+                                                
+                                                <div class="mb-3">
+                                                    <label for="P_ID_{{ medicine.P_ID }}">Patient ID</label>
+                                                    <input type="number" name="P_ID" id="P_ID_{{ medicine.P_ID }}" class="form-control" value="{{ medicine.P_ID }}">
+                                            
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Medicine_name_{{ medicine.Medicine_ID }}">Medicine Name</label>
+                                                    <textarea name="Medicine_name" id="Medicine_name_{{ medicine.Medicine_ID }}" class="form-control" rows="3">{{ medicine.Medicine_name }}</textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Cost_{{ medicine.Medicine_ID }}">Cost</label>
+                                                    <input type="number" name="Cost" id="Cost_{{ medicine.Medicine_ID }}" class="form-control" value="{{ medicine.Cost }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Side_effect_{{ medicine.Medicine_ID }}">Side Effect</label>
+                                                    <input type="text" name="Side_effect" id="Side_effect_{{ medicine.Medicine_ID }}" class="form-control" value="{{ medicine.Side_effect }}">
+                                                </div>
+                                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                               
+                                            </form>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p class="mt-4">No prescriptions found for the entered Patient ID.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock doctor %}

@@ -10,7 +10,7 @@
     <div class="list-group">
         <a href="{% url 'Patient_Profile' %}" class="list-group-item list-group-item-primary list-group-item-action  {% if request.path == '/hms_patient/Patient_Profile/' %} active {% endif %} ">Profile</a>
         <a href="{% url 'Book_Appointment' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_patient/Book_Appointment/' %} active {% endif %} ">Book Appointment</a>
-        <a href="{% url 'My_Appointment' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_patient/My_Appointment/' %} active {% endif %}">Appointment Status</a>
+        <a href="{% url 'Patient_My_Appointment' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_patient/My_Appointment/' %} active {% endif %}">Appointment Status</a>
         <a href="{% url 'edit_patient_profile' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_patient/edit_profile/' %} active {% endif %} ">Update Details</a>
         <a href="{% url 'Doctor_List' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/hms_patient/Doctor_List/' %} active {% endif %} ">View Doctor</a>
         <!-- <a href="" class="list-group-item list-group-item-primary list-group-item-action">Receipt Payment</a> -->

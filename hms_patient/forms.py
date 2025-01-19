@@ -34,7 +34,7 @@ class AppointmentForm(forms.ModelForm):
             raise ValidationError("Appointment date and time must be in the future.")
         return datetime    
 
-User = get_user_model()
+# User = get_user_model()
 
 class PatientUpdateForm(forms.ModelForm):
     #Field from from patient model
