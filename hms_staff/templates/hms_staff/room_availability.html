@@ -1,0 +1,88 @@
+{% extends 'hms_staff/staff_index.html' %}
+{% load static %}
+{% block title %}Staff Dashboard{% endblock title %}
+
+{% block staff %}
+<div>
+    <h2>Staff Dashboard</h2>
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container my-4">
+        <h3 class="text-center">Room Statistics</h3>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white p-3">
+                    <h4>Total Rooms</h4>
+                    <h2>{{ total_rooms }}</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white p-3">
+                    <h4>Available Rooms</h4>
+                    <h2>{{ available_rooms }}</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white p-3">
+                    <h4>Occupied Rooms</h4>
+                    <h2>{{ occupied_rooms }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container card">
+        <div class="card-body my-2">
+            <h2 class="text-center">Available Rooms</h2>
+            <div class="container mt-5 table-responsive">  
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Room No</th>
+                            <th>Room Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                        <tr>
+                            <td>{{ room.Room_no }}</td>
+                            <td>{{ room.Room_type }}</td>
+                            <td>
+                                {% if room.status == 'available' %}
+                                    <span class="badge bg-success">Available</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Occupied</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if room.status == 'occupied' %}
+                                    <a href="{% url 'release_room' room.Room_ID %}" class="btn btn-warning btn-sm">Release</a>
+                                {% else %}
+                                    <span class="text-muted">N/A</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">No rooms available</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock staff %}
+
+

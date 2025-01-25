@@ -168,3 +168,21 @@ class Contact(models.Model):
     subject = models.CharField(max_length=255)
     message = models.TextField()
 
+
+class Shift(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    shift_start = models.DateTimeField()
+    shift_end = models.DateTimeField()
+    shift_status = models.CharField(max_length=50, choices=[('Scheduled', 'Scheduled'), ('Completed', 'Completed')])
+
+    def __str__(self):
+        return f"{self.staff.user.first_name} {self.staff.user.last_name} - {self.shift_start} to {self.shift_end}"
+
+
+class Attendance(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.CharField(max_length=50, choices=[('Present', 'Present'), ('Absent', 'Absent'), ('Late', 'Late')])
+
+    def __str__(self):
+        return f"{self.staff.user.first_name} - {self.date} - {self.status}"

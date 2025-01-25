@@ -35,3 +35,17 @@ class AssignedAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin):
     list_display = ['fname','contact','email','subject','message']
 
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ('Room_no', 'Room_type', 'status', 'P_ID')  # Display important fields
+    list_filter = ('Room_type', 'status')  # Filters for easy sorting
+    search_fields = ('Room_no', 'P_ID__id')  # Enable search by Room No & Patient ID
+    ordering = ('Room_no',)  # Order rooms by Room No
+    
+    def save_model(self, request, obj, form, change):
+        """Prevent adding rooms if the max limit is reached"""
+        max_rooms = 20  # Set your hospital's fixed room capacity
+        if Room.objects.count() >= max_rooms and not change:
+            raise ValidationError(f"Cannot add more rooms. Maximum limit of {max_rooms} reached.")
+        super().save_model(request, obj, form, change)
+
+admin.site.register(Room, RoomAdmin)
