@@ -33,7 +33,7 @@
             <div class="col-md-4">
                 <div class="card bg-warning text-white p-3">
                     <h4>Occupied Rooms</h4>
-                    <h2>{{ occupied_rooms }}</h2>
+                    <h2><a href="{% url 'Occupied_Rooms' %}">{{ occupied_rooms }}</a></h2>
                 </div>
             </div>
         </div>
@@ -64,8 +64,20 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if room.status == 'occupied' %}
-                                    <a href="{% url 'release_room' room.Room_ID %}" class="btn btn-warning btn-sm">Release</a>
+                                {% if room.status == 'available' %}
+                                    {% if staff %}
+                                        <form method="POST" action="{% url 'book_room' room.Room_ID %}">
+                                            {% csrf_token %}
+                                            <select name="patient_id" class="form-control">
+                                                {% for patient in patients %}
+                                                    <option value="{{ patient.P_ID }}">{{ patient.P_Name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="submit" class="btn btn-primary mt-2">Book</button>
+                                        </form>
+                                    {% else %}
+                                        <span class="text-muted">Staff only</span>
+                                    {% endif %}
                                 {% else %}
                                     <span class="text-muted">N/A</span>
                                 {% endif %}

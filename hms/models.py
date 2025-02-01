@@ -61,7 +61,7 @@ room_status=(
 
 class Room(models.Model):
     Room_ID = models.AutoField(primary_key=True)
-    P_ID = models.ForeignKey(Patient,on_delete=models.CASCADE)
+    P_ID = models.ForeignKey(Patient,on_delete=models.SET_NULL, null=True, blank=True)
     Room_no = models.IntegerField()
     Room_type = models.CharField(choices=room_choice, max_length=200)
     status = models.CharField(choices=room_status,max_length=100)
