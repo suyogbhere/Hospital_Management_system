@@ -27,7 +27,7 @@
             <div class="col-md-4">
                 <div class="card bg-success text-white p-3">
                     <h4>Available Rooms</h4>
-                    <h2>{{ available_rooms }}</h2>
+                    <h2>{{ available_rooms_count }}</h2>
                 </div>
             </div>
             <div class="col-md-4">
@@ -38,60 +38,46 @@
             </div>
         </div>
     </div>
-    <div class="container card">
-        <div class="card-body my-2">
-            <h2 class="text-center">Available Rooms</h2>
-            <div class="container mt-5 table-responsive">  
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Room No</th>
-                            <th>Room Type</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for room in rooms %}
-                        <tr>
-                            <td>{{ room.Room_no }}</td>
-                            <td>{{ room.Room_type }}</td>
-                            <td>
-                                {% if room.status == 'available' %}
-                                    <span class="badge bg-success">Available</span>
-                                {% else %}
-                                    <span class="badge bg-danger">Occupied</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if room.status == 'available' %}
-                                    {% if staff %}
-                                        <form method="POST" action="{% url 'book_room' room.Room_ID %}">
-                                            {% csrf_token %}
-                                            <select name="patient_id" class="form-control">
-                                                {% for patient in patients %}
-                                                    <option value="{{ patient.P_ID }}">{{ patient.P_Name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <button type="submit" class="btn btn-primary mt-2">Book</button>
-                                        </form>
-                                    {% else %}
-                                        <span class="text-muted">Staff only</span>
-                                    {% endif %}
-                                {% else %}
-                                    <span class="text-muted">N/A</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="4" class="text-center text-danger">No rooms available</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-            </div>
+    <div class="container mt-4">
+        <h2 class="text-center">Available Rooms</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Room No</th>
+                        <th>Room Type</th>
+                        <th>Status</th>
+                        <th>Assign Patient</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{ room.Room_no }}</td>
+                        <td>{{ room.Room_type }}</td>
+                        <td>
+                            <span class="badge bg-success">Available</span>
+                        </td>
+                        <td>
+                            <form method="POST" action="{% url 'book_room' room.Room_ID %}">
+                                {% csrf_token %}
+                                <select name="patient_id" class="form-control">
+                                    <option value="" disabled selected>Select Patient</option>
+                                    {% for patient in patients %}
+                                        <option value="{{ patient.P_ID }}">{{ patient.user.first_name }} {{ patient.user.last_name }} (ID: {{ patient.P_ID }})</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="btn btn-primary mt-2">Book</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-danger">No available rooms</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
