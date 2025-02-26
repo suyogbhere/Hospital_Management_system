@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from hms.models import *
 from django.contrib.auth.decorators import login_required
 from hms.forms import *
+from .forms import *
 from django.contrib import messages
 
 
@@ -78,5 +79,22 @@ def release_room(request, room_id):
         messages.error(request, "Room is already available")
 
     return redirect('Occupied_Rooms')
+
+
+def billing_list(request):
+    billings = Billing.objects.select_related('P_ID').all()
+    return render(request, 'hms_staff/billing_list.html', {'billings': billings})
+
+def add_billing(request):
+    if request.method == "POST":
+        form = BillingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Billing record added successfully.")
+            return redirect('billing_list')
+    else:
+        form = BillingForm()
+    
+    return render(request, 'hms_staff/add_billing.html', {'form': form})
 
 

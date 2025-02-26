@@ -1,0 +1,56 @@
+{% extends 'hms_staff/staff_index.html' %}
+{% load static %}
+{% block title %}Billing List{% endblock title %}
+
+{% block staff %}
+<div>
+    <h2>Staff Dashboard</h2>
+    <div class="container col-sm-5 mx-auto mt-1">
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container card">
+        <div class="card-body my-2">
+            <h2 class="p-2 text-center" style="border-bottom: 2px solid navy;">Billing Record List</h2>
+            <div class="container">
+                <a href="{% url 'add_billing' %}" class="btn btn-primary mb-3">Add Billing</a>
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Bill ID</th>
+                            <th>Patient ID</th>
+                            <th>Patient Name</th>  <!-- Added Patient Name Column -->
+                            <th>Total Amount</th>
+                            <th>Payment Date</th>
+                            <th>Payment Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bill in billings %}
+                        <tr>
+                            <td>{{ bill.Bill_ID }}</td>
+                            <td>{{ bill.P_ID.P_ID }}</td>
+                            <td>{{ bill.P_ID.user.first_name }} {{ bill.P_ID.user.last_name }}</td>  <!-- Show Patient Name -->
+                            <td>{{ bill.Total_amount }} Rs</td>
+                            <td>{{ bill.Pay_date }}</td>
+                            <td>{{ bill.Pay_method }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No billing records found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock staff %}

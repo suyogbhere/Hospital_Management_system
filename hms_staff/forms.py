@@ -30,3 +30,16 @@ class Staff_Registration(UserCreationForm):
 class StaffLogin(AuthenticationForm):
     username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","autofocus":True}))
     password=forms.CharField(widget=forms.PasswordInput(attrs={"class":"form-control","autofocus":True}))
+
+
+
+class BillingForm(forms.ModelForm):
+    class Meta:
+        model = Billing
+        fields = ['P_ID', 'Total_amount', 'Pay_date', 'Pay_method']
+        widgets = {
+            'P_ID': forms.Select(attrs={'class': 'form-select'}),  # Bootstrap dropdown
+            'Total_amount': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter amount'}),
+            'Pay_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'Pay_method': forms.Select(attrs={'class': 'form-select'}),  # Bootstrap dropdown
+        }

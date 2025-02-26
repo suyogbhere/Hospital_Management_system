@@ -10,7 +10,8 @@
     <div class="list-group">
         <a href="{% url 'Staff_Profile' %}" class="list-group-item list-group-item-primary list-group-item-action  {% if request.path == '/Staff_Profile/' %} active {% endif %} ">Profile</a>
         <a href="{% url 'Available_Rooms' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/Available_Rooms/' %} active {% endif %} ">Room Availability</a>
-        <!-- <a href="" class="list-group-item list-group-item-primary list-group-item-action">Attendence</a> -->
+        <a href="{% url 'add_billing' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/add_billing/' %} active {% endif %} ">Add Billing</a>
+        
 
     </div>
 </div>

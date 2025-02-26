@@ -7,4 +7,6 @@ urlpatterns =[
      path('Available_Rooms/', views.Available_Rooms,name='Available_Rooms'),
      path('Occupied_Rooms/', views.Occupied_Rooms,name='Occupied_Rooms'),
      path('rooms/release/<int:room_id>/', views.release_room, name='release_room'),
+     path('billing/', views.billing_list, name='billing_list'),
+    path('billing/add/', views.add_billing, name='add_billing'),
 ]
