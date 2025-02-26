@@ -105,3 +105,15 @@ def Edit_Patient_Profile(request):
 def Doctor_List(request):
     doctor = Doctor.objects.all()
     return render(request, 'hms_patient/doctor_list.html',locals())
+
+
+@login_required
+def My_Medicines(request):
+    if not hasattr(request.user, 'patient'):
+        return HttpResponseForbidden("You are not authorized to view this page.")    
+    patient = get_object_or_404(Patient, user=request.user)
+    # print(patient)
+    prescribed_medicines = Medicine.objects.filter(P_ID=patient)
+    # print(prescribed_medicines)
+    return render(request, 'hms_patient/my_medicines.html', {'medicines': prescribed_medicines})
+

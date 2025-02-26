@@ -9,6 +9,7 @@ urlpatterns =[
     path('My_Appointment/', views.My_Appointment,name='Patient_My_Appointment'),
     path('cancel_appointment/<int:appointment_id>/', views.Cancel_Appointment, name='cancel_appointment'),
     path('edit_profile/',views.Edit_Patient_Profile,name='edit_patient_profile'),
-    path('Doctor_List/',views.Doctor_List,name='Doctor_List')
+    path('Doctor_List/',views.Doctor_List,name='Doctor_List'),
+    path('My_Medicines/', views.My_Medicines, name='My_Medicines'),
 
 ]
