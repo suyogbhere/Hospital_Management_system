@@ -6,10 +6,29 @@
 {% block content1 %}
 <div class="container-fluid contact-body">
     <div class="container py-5 mt-2">
+        <div class="container col-sm-5 mx-auto mt-1">
+            {% if messages %}
+                {% for message in messages %}
+                    <p {% if message %} class="alert alert-{{message.tags}} mb-5 alert-dismissible fade show" {% endif %} role="alert">{{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" area-label="Close">
+                        </button>
+                    </p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        
         <div class="card">
             <div class="card-body">
                 <h1 class="fw-light text-center py-3">Contact Us</h1>
+                <small class="text-warning">
+                    {% for error in form.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </small>
                 <form action="" method="post">
+                    
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="row">
@@ -17,9 +36,12 @@
                                     {{form.fname.label}}
                                     {{form.fname}}
                                 </div>
+                                
                                 <div class="col-sm-5">
+                                    
                                     {{form.contact.label}}
                                     {{form.contact}}
+                                    
                                 </div>
                             </div> <br>
                             <div class="row">
@@ -58,12 +80,10 @@
                     </div>
                     <br>
                     <input type="submit" value="Submit" class="col-sm-2 btn btn-primary">
-                    <input type="reset" value="Clear" class="ms-3 col-sm-2 btn btn-primary">
+                    <a href="{% url 'contact' %}" class="col-sm-2 btn btn-warning">Reset</a>
+                    
                 </form>
             </div>
-            
-            
-            
         </div>
     </div>
 </div>

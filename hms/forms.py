@@ -24,6 +24,11 @@ class Patient_Registration(UserCreationForm):
                  "mobile":forms.NumberInput(attrs={"class":"form-control"}),
                  }
     field_order = ['email','first_name','last_name','mobile','password1','password2','gender','is_patient']
+    def clean_mobile(self):
+        mobile = self.cleaned_data.get('mobile')
+        if mobile and (len(str(mobile)) != 10):
+            raise forms.ValidationError("Mobile number must be exactly 10 digits.")
+        return mobile
 
 
 class Staff_Registration(UserCreationForm):
@@ -41,7 +46,11 @@ class Staff_Registration(UserCreationForm):
                  "mobile":forms.NumberInput(attrs={"class":"form-control"}),
                  }
     field_order = ['email','first_name','last_name','mobile','password1','password2','gender']
-   
+    def clean_mobile(self):
+        mobile = self.cleaned_data.get('mobile')
+        if mobile and (len(str(mobile)) != 10):
+            raise forms.ValidationError("Mobile number must be exactly 10 digits.")
+        return mobile
 
 class Doctor_Registration(UserCreationForm):
     password1= forms.CharField(label='password', widget=forms.PasswordInput(attrs={"class":"form-control"}))
@@ -57,6 +66,11 @@ class Doctor_Registration(UserCreationForm):
                  "mobile":forms.NumberInput(attrs={"class":"form-control"}),
                  }
     field_order = ['email','first_name','last_name','mobile','password1','password2','gender']
+    def clean_mobile(self):
+        mobile = self.cleaned_data.get('mobile')
+        if mobile and (len(str(mobile)) != 10):
+            raise forms.ValidationError("Mobile number must be exactly 10 digits.")
+        return mobile
 
 class PatientLogin(AuthenticationForm):
     username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","autofocus":True}))
@@ -88,3 +102,13 @@ class ContactForm(forms.ModelForm):
                 'placeholder':'Message......'
                 })
         }
+    def clean_contact(self):
+        contact = self.cleaned_data.get('contact')
+
+        if not contact.isdigit():
+            raise forms.ValidationError("Contact number must contain only digits.")
+
+        if len(contact) != 10:
+            raise forms.ValidationError("Contact number must be exactly 10 digits.")
+
+        return contact

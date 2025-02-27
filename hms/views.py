@@ -31,6 +31,8 @@ def Patient_Register(request):
                 fm.save()
                 messages.success(request,'Account Created successfully')
                 return HttpResponseRedirect('/patient_login/')
+            else:
+                messages.error(request, 'Please correct the errors below.')
         except:
             pass
     else:
@@ -71,6 +73,8 @@ def Staff_Register(request):
             fm.save()
             messages.success(request,'Account Created successfully')
             return HttpResponseRedirect('/staff_login/')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         fm = Staff_Registration()
     return render(request, 'hms/staff_register.html',{'form':fm})
@@ -99,6 +103,8 @@ def Doctor_Register(request):
             fm.save()
             messages.success(request,'Account Created successfully')
             return HttpResponseRedirect('/doctor_login/')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         fm = Doctor_Registration()
     return render(request, 'hms/doctor_register.html',{'form':fm})
@@ -128,6 +134,8 @@ def Contact(request):
             if form.is_valid():
                 form.save()
                 messages.success(request,'Data submitted successfully !!!')
+            else:
+                messages.error(request, 'Please correct the errors below.')
         except Exception as e:
             print(e)
             messages.danger(request,'Something went wrong !!!')
